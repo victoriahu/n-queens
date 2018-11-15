@@ -239,7 +239,7 @@
       //        return true
       // return false
       var rows = this.rows();
-      var d = majorDiagonalColumnIndexAtFirstRow;
+      var d = minorDiagonalColumnIndexAtFirstRow;
       var count = 0; 
       var n = rows.length;
       var ilast = n - 1 - d;
@@ -270,7 +270,7 @@
       var rows = this.rows();
       var n = rows.length;
       for (var d = 0; d <= 2 * (n - 1); d++) {
-        if (this.hasMajorDiagonalConflictAt(d)) {
+        if (this.hasMinorDiagonalConflictAt(d)) {
           return true;
         }
       }

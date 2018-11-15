@@ -36,6 +36,23 @@ describe('Board', function() {
       board.togglePiece(1,0);
       expect(board.hasAnyColConflicts()).to.be.equal(true);
     });
+    //Major Diagonal Conflict
+    it('should not detect minor diagonal conflict', function() {
+      var board = new Board({n:3});
+      board.togglePiece(0,2);
+      board.togglePiece(1,1);
+      board.togglePiece(2,0);
+      expect(board.hasAnyMajorDiagonalConflicts()).to.be.equal(false);
+    });
+    
+    // Minor Diagonal Conflict
+    it('should detect minor diagonal conflict', function() {
+      var board = new Board({n:3});
+      board.togglePiece(0,2);
+      board.togglePiece(1,1);
+      board.togglePiece(2,0);
+      expect(board.hasMinorDiagonalConflictAt(2)).to.be.equal(true);
+    });
   });
   
   
