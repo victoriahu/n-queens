@@ -242,7 +242,7 @@
       var d = minorDiagonalColumnIndexAtFirstRow;
       var count = 0; 
       var n = rows.length;
-      var ilast = n - 1 - d;
+      var ilast = d;
       if (ilast > n - 1) {
         ilast = n - 1;
       }
