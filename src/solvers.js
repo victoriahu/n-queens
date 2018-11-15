@@ -14,8 +14,39 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 
+// AT THE VERY BEGINNING
+// create an all-true availableSquares array
+//   create an array with the same shape as empty board, but filled with true instead of 0
+// create an empty board of size n
+// create root tree with availableSquares array and empty board as arguments
+
+// NOTE: write window.Tree??
+var Tree = function (board, availableSquares) {
+  // assign board property to tree object
+  // assign available squares property to tree object
+  // assign children property to the tree object
+  this.board = board;
+  this.availableSquares = availableSquares;
+  this.children = [];
+};
+
+// Define addChildren method of Tree 
+Tree.prototype.addChildren = function () {
+  // get rows
+  // for each row
+  //   for each colIndex
+  //     if availableSquares is true
+  //       update rows by setting current indices to 1
+  //       create new board with rows array
+  //       set availableSquares at current indices to false
+  //       tree = new Tree(new board, new availableSquares)
+  //       push new tree to children array
+
+};
 
 window.findNRooksSolution = function(n) {
+
+
   var solution = undefined; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
