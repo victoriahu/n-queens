@@ -1,5 +1,44 @@
 describe('Board', function() {
-
+  
+  describe('Stephen and Vicky\'s Custom Tests', function() {
+    // Rows
+    it('should detect board conflict for a specific row', function() {
+      var board = new Board({n:3});
+      board.togglePiece(0,1);
+      board.togglePiece(0,0);
+      expect(board.hasRowConflictAt(0)).to.be.equal(true);
+    });
+    it('should detect if there are no board conflicts for a specific row', function() {
+      var board = new Board({n:3});
+      expect(board.hasRowConflictAt(0)).to.be.equal(false);
+    });
+    it('should detect any board row conflicts', function() {
+      var board = new Board({n:3});
+      board.togglePiece(0,1);
+      board.togglePiece(0,0);
+      expect(board.hasAnyRowConflicts()).to.be.equal(true);
+    });
+    it('should detect if there are no board row conflicts', function() {
+      var board = new Board({n:3});
+      expect(board.hasAnyRowConflicts()).to.be.equal(false);
+    });
+    
+    // Columns
+    it('should detect board conflict for a specific column', function() {
+      var board = new Board({n:3});
+      board.togglePiece(0,0);
+      board.togglePiece(1,0);
+      expect(board.hasColConflictAt(0)).to.be.equal(true);
+    });
+    it('should detect any board col conflicts', function() {
+      var board = new Board({n:3});
+      board.togglePiece(0,0);
+      board.togglePiece(1,0);
+      expect(board.hasAnyColConflicts()).to.be.equal(true);
+    });
+  });
+  
+  
   var capitalize = function(word) {
     return word[0].toUpperCase() + word.slice(1);
   };

@@ -79,12 +79,49 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      //first get rows array from window.Board
+      //set a count for the times a square is occupied in the same row
+      //select the row that matches the argument rowIndex
+      //for each square of the selected row
+        //if the column has a piece in it
+          //increment count by 1
+          //if count = 2, then we return true
+      //if we're done iterating and no conflicts return false
+      
+      var rows = this.rows();
+      var count = 0;
+      var row = rows[rowIndex];
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] === 1) {
+          count++;
+          if (count === 2) {
+            return true;
+          }
+        } 
+      }
+      return false; 
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      //get rows array from window.board
+      //for each row in rows
+      //call .hasrowconflictat for that specific row
+      //if hasrowconflictat returns true, then return true
+      //if finish iterating and hasconflictat never returns true then return false
+      var rows = this.rows();
+      for (var i = 0; i < rows.length; i++) {
+        //this === instance of Board aka board
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      // rows.forEach((row, i) => 
+      //   if (.hasRowConflictAt(i)) {
+      //     return true;
+      //   }
+      // )
+      return false;
     },
 
 
@@ -94,12 +131,42 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // Get rows array from board
+      // Initialize count to 0
+      // For each row in rows
+      //   if row[colIndex] equals 1
+      //     increment count by 1
+      //     if count equals 2
+      //       return true
+      // return false
+      var rows = this.rows();
+      var count = 0;
+      for (var i = 0; i < rows.length; i++) {
+        if (rows[i][colIndex] === 1) {
+          count++;
+          if (count === 2) {
+            return true;
+          }
+        }
+      }
+      return false; 
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // get rows from board
+      // for each column index
+      //   if current column has conflict 
+      //     return true
+      // return false
+      var rows = this.rows();
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      
+      return false; 
     },
 
 
