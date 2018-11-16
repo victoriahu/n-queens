@@ -14,11 +14,7 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 
-// AT THE VERY BEGINNING
-// create an all-true availableSquares array
-//   create an array with the same shape as empty board, but filled with true instead of 0
-// create an empty board of size n
-// create root tree with availableSquares array and empty board as arguments
+
 
 // NOTE: write window.Tree??
 var Tree = function (board, availableSquares) {
@@ -28,6 +24,12 @@ var Tree = function (board, availableSquares) {
   this.board = board;
   this.availableSquares = availableSquares;
   this.children = [];
+};
+
+Tree.prototype.deepCopy = function (arr) {
+  var result = [];
+  arr.forEach(row => result.push(row.slice()))
+  return result;
 };
 
 // Define addChildren method of Tree 
@@ -41,11 +43,38 @@ Tree.prototype.addChildren = function () {
   //       set availableSquares at current indices to false
   //       tree = new Tree(new board, new availableSquares)
   //       push new tree to children array
-
+  
+  
+  //var availableSquaresBoard = availableSquaresRows;
+  var n = this.board.rows().length;
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
+      var rows = this.deepCopy(this.board.rows());
+      var availableSquaresRows = this.deepCopy(this.availableSquares.rows());
+      if (availableSquaresRows[i][j] === 0) {
+        rows[i][j] = 1;
+        // Mark the current tree node's availableSquares board with 1
+        this.availableSquares.togglePiece(i, j);
+        availableSquaresRows[i][j] = 1;
+        var newBoard = new Board(rows);
+        var newAvailableSquares = new Board(availableSquaresRows);
+        // var newAvailableSquaresBoard = new Board(availableSquaresRows);
+        // var newAvailableSquares = 
+        tree = new Tree(newBoard, newAvailableSquares);
+        this.children.push(tree);
+      }
+    }
+  }
 };
 
-window.findNRooksSolution = function(n) {
 
+window.findNRooksSolution = function(n) {
+  // AT THE VERY BEGINNING
+  // create an availableSquares board, an empty board of size n
+  // create root tree with availableSquares array and empty board as arguments
+  // var availableSquares = new Board({n:3});
+  // var board = new Board({n:3});
+  // var root = new Tree(board, availableSquares);
 
   var solution = undefined; //fixme
 
