@@ -69,6 +69,10 @@ Tree.prototype.addChildren = function () {
 
 
 window.findNRooksSolution = function(n) {
+  // NOTE: This solution works (and the solution for countNRooksSolutions, which uses this method) 
+  // but it takes a long time to complete. It is computationally expensive
+  // because it creates a tree data structure on top of the board object (each node has a board object).
+
   // AT THE VERY BEGINNING
   // create an availableSquares board, an empty board of size n
   // create root tree with availableSquares array and empty board as arguments
@@ -83,15 +87,20 @@ window.findNRooksSolution = function(n) {
     // for each board's child
     //   run find solutions function on child and increase numPieces
     if (tree.board.hasAnyColConflicts() || tree.board.hasAnyRowConflicts()) {
+      tree.children = null;
       return;
     } else if (numPieces === n) {
       solutions.push(tree.board.rows());
       return;
     }
     tree.addChildren();
-    tree.children.forEach(function(child) {
-      findSolutions(child, numPieces + 1);
-    });
+    // tree.children.forEach(function(child) {
+    //   findSolutions(child, numPieces + 1);
+    // });
+    while (tree.children.length > 0) {
+      findSolutions(tree.children[0], numPieces + 1);
+      tree.children.shift();
+    }
 
   };
 
@@ -103,22 +112,71 @@ window.findNRooksSolution = function(n) {
   
   var solution = solutions[0]; //fixme
 
+  solution.solutionCount = solutions.length;
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = findNRooksSolution(n).solutionCount; //fixme
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
+
+  // We are commenting out because it times out the browser.
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  // NOTE: In theory we could easily adapt the rooks solution above, but we wanted to try an alternative
+  // approach that did not involve creating a tree. However we ran out of time while implementing the
+  // new approach. Below is a partial implementation.
 
+
+
+  // if (n === 0) {
+  //   return [];
+  // }
+  //Create a board
+  // create solutions array
+  //Fill out lookup, helper function
+  var board = new Board({n:n});
+  var solutions = [];
+  
+  var lookup = [];
+
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
+      lookup.push([i, j]);
+    }
+  }
+  
+  var findSolution = function (id, numPieces) {
+    var rowStart = lookup[id][0];
+    var colStart = lookup[id][1];
+    
+    for (var i = rowStart; i < n; i++) {
+      for (var j = colStart; j < n; j++) {
+        id += 1;
+        board.togglePiece(i,j);
+        if (board.hasAnyQueenConflictsOn(i,j)) {
+          board.togglePiece(i,j);
+        } else {
+          if (numPieces === n) {
+            solutions.push(JSON.stringify(board.rows()));
+            board.togglePiece(i,j);
+          }
+          findSolution(id, numPieces + 1);
+        }
+      }
+    } 
+  };
+  findSolution(0,0);
+
+  solutions = solutions.map(JSON.parse);
+  var solution = solutions[0];
+  console.log(solutions);
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };

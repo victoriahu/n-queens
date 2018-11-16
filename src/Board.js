@@ -193,7 +193,6 @@
         ilast = n - 1;
       }
       for (var i = 0; i <= ilast; i++) {
-        debugger;
         if (rows[i][i + d] === 1) {
           count++;
           if (count === 2) {
@@ -247,7 +246,6 @@
         ilast = n - 1;
       }
       for (var i = 0; i <= ilast; i++) {
-        debugger;
         if (rows[i][d - i] === 1) {
           count++;
           if (count === 2) {
