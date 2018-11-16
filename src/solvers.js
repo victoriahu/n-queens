@@ -72,11 +72,36 @@ window.findNRooksSolution = function(n) {
   // AT THE VERY BEGINNING
   // create an availableSquares board, an empty board of size n
   // create root tree with availableSquares array and empty board as arguments
-  // var availableSquares = new Board({n:3});
-  // var board = new Board({n:3});
-  // var root = new Tree(board, availableSquares);
+  var solutions = [];
+  var findSolutions = function (tree, numPieces) {
+    // if tree.board has any conflict
+    //   return
+    // else if numPieces equals n
+    //   push rows into solutions 
+    //   return
+    // add children to board
+    // for each board's child
+    //   run find solutions function on child and increase numPieces
+    if (tree.board.hasAnyColConflicts() || tree.board.hasAnyRowConflicts()) {
+      return;
+    } else if (numPieces === n) {
+      solutions.push(tree.board.rows());
+      return;
+    }
+    tree.addChildren();
+    tree.children.forEach(function(child) {
+      findSolutions(child, numPieces + 1);
+    });
 
-  var solution = undefined; //fixme
+  };
+
+  // Invoke find solutions
+  var availableSquares = new Board({n: n});
+  var board = new Board({n: n});
+  var root = new Tree(board, availableSquares);
+  findSolutions(root, 0);
+  
+  var solution = solutions[0]; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
